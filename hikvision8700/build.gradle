@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    // 使用过去的类  否则找不到http client
+    useLibrary 'org.apache.http.legacy'
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.github.HyfSunshine:SDRLibrary:1.0.5'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
+    implementation files('libs/ivms_8700_sdk_library.jar')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+}

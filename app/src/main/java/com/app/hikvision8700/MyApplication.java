@@ -1,10 +1,9 @@
 package com.app.hikvision8700;
 
 import android.app.Application;
-import android.graphics.drawable.ColorDrawable;
 
 import com.sdr.hikvision8700.HIKVISION8700;
-import com.sdr.lib.SDRLibrary;
+import com.sdr.lib.SDR;
 
 /**
  * Created by HyFun on 2019/04/09.
@@ -16,8 +15,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SDRLibrary.getInstance().init(this, BuildConfig.DEBUG);
+        SDR.register(this, new ActivityConfig(getApplicationContext()));
 
-        HIKVISION8700.getInstance().init(this, BuildConfig.DEBUG, new ColorDrawable(getResources().getColor(R.color.colorPrimary)), R.layout.layout_public_toolbar_white);
+        HIKVISION8700.getInstance().init(this, BuildConfig.DEBUG);
     }
 }

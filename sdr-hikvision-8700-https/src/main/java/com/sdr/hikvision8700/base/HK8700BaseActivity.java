@@ -1,14 +1,10 @@
 package com.sdr.hikvision8700.base;
 
-import android.graphics.drawable.Drawable;
-
-import com.sdr.hikvision8700.HIKVISION8700;
 import com.sdr.lib.base.BaseActivity;
 import com.sdr.lib.mvp.AbstractPresenter;
 import com.sdr.lib.mvp.AbstractView;
 import com.sdr.lib.ui.dialog.SDRLoadingDialog;
-import com.sdr.lib.util.ToastTopUtil;
-import com.sdr.lib.util.ToastUtil;
+import com.sdr.lib.util.AlertUtil;
 
 /**
  * Created by HyFun on 2019/04/08.
@@ -26,18 +22,6 @@ public class HK8700BaseActivity<T extends AbstractPresenter> extends BaseActivit
         if (presenter != null) {
             presenter.detachView();
         }
-    }
-
-
-
-    @Override
-    protected int onHeaderBarToolbarRes() {
-        return HIKVISION8700.getInstance().getToolbarRes();
-    }
-
-    @Override
-    protected Drawable onHeaderBarDrawable() {
-        return HIKVISION8700.getInstance().getDrawable();
     }
 
 
@@ -65,31 +49,31 @@ public class HK8700BaseActivity<T extends AbstractPresenter> extends BaseActivit
 
     @Override
     public void showSuccessMsg(String s) {
-        ToastTopUtil.showCorrectTopToast(s);
+        AlertUtil.showPositiveToastTop(s);
     }
 
     @Override
     public void showErrorMsg(String s) {
-        ToastTopUtil.showErrorTopToast(s);
+        AlertUtil.showNegativeToastTop(s);
     }
 
     @Override
     public void showNormalMsg(String s) {
-        ToastTopUtil.showNormalTopToast(s);
+        AlertUtil.showNormalToastTop(s);
     }
 
     @Override
     public void showSuccessToast(String s) {
-        ToastUtil.showCorrectMsg(s);
+        AlertUtil.showPositiveToast(s);
     }
 
     @Override
     public void showErrorToast(String s) {
-        ToastUtil.showErrorMsg(s);
+        AlertUtil.showNegativeToast(s);
     }
 
     @Override
     public void showNormalToast(String s) {
-        ToastUtil.showNormalMsg(s);
+        AlertUtil.showNormalToast(s);
     }
 }

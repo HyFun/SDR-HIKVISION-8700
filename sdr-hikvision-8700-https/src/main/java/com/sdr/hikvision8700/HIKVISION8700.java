@@ -14,6 +14,7 @@ import com.orhanobut.logger.Logger;
 import com.sdr.hikvision8700.data.HK8700User;
 import com.sdr.hikvision8700.ui.HK8700MainActivity;
 import com.sdr.lib.rx.RxUtils;
+import com.sdr.lib.util.AlertUtil;
 import com.sdr.lib.util.ToastTopUtil;
 
 import io.reactivex.Observable;
@@ -49,15 +50,11 @@ public class HIKVISION8700 {
 
     private Application application;
     private boolean debug;
-    private Drawable drawable;
-    private int toolbarRes;
     private boolean loadJNI; // 是否已经加载过库文件
 
-    public void init(Application application, final boolean debug, Drawable drawable, int toolbarRes) {
+    public void init(Application application, final boolean debug) {
         this.application = application;
         this.debug = debug;
-        this.drawable = drawable;
-        this.toolbarRes = toolbarRes;
     }
 
     public Application getApplication() {
@@ -66,14 +63,6 @@ public class HIKVISION8700 {
 
     public boolean isDebug() {
         return debug;
-    }
-
-    public Drawable getDrawable() {
-        return drawable.getConstantState().newDrawable();
-    }
-
-    public int getToolbarRes() {
-        return toolbarRes;
     }
 
     /**
@@ -132,7 +121,7 @@ public class HIKVISION8700 {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
                             Logger.e(throwable, throwable.getMessage());
-                            ToastTopUtil.showErrorTopToast("海康8700视频库文件加载失败");
+                            AlertUtil.showPositiveToastTop("海康8700视频库文件加载失败");
                         }
                     });
 

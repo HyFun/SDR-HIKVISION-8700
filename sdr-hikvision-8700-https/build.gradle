@@ -38,7 +38,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.android.support:design:27.1.1'
-    implementation 'com.github.HyfSunshine:SDRLibrary:1.0.5'
+    implementation 'com.github.sz-sdr.SDR-LIBRARY:sdr-library:2.0.1'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
     implementation files('libs/ivms_8700_sdk_library.jar')
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

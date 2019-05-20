@@ -1,1 +1,1 @@
-include ':app', ':hikvision8700'
+include ':app', ':sdr-hikvision-8700-https'

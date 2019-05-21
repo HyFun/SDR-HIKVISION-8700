@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.sdr.hikvision8700.HIKVISION8700;
+import com.sdr.hikvision8700.SDR_HIKVISION_8700_HTTPS;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 String userName = edtUserName.getText().toString().trim();
                 String passWord = edtPassword.getText().toString().trim();
 
-                HIKVISION8700.getInstance().start(MainActivity.this, ip, userName, passWord);
+                SDR_HIKVISION_8700_HTTPS.getInstance().start(MainActivity.this, ip, userName, passWord);
             }
         });
     }

@@ -11,7 +11,7 @@ import android.widget.RadioGroup;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.sdr.hikvision8700.HIKVISION8700;
+import com.sdr.hikvision8700.SDR_HIKVISION_8700_HTTPS;
 import com.sdr.hikvision8700.R;
 import com.sdr.hikvision8700.base.HK8700BaseActivity;
 import com.sdr.hikvision8700.constant.HK8700Constant;
@@ -66,7 +66,7 @@ public class HK8700MainActivity extends HK8700BaseActivity<HK8700MainPresenter> 
                 HK8700User.getInstance().getUrl(),
                 HK8700User.getInstance().getUserName(),
                 HK8700User.getInstance().getPassWord(),
-                HIKVISION8700.getInstance().getMacAddr()
+                SDR_HIKVISION_8700_HTTPS.getInstance().getMacAddr()
         );
 
         changeRecycler(currentViewNum, null);

@@ -1,6 +1,6 @@
 package com.sdr.hikvision8700.support;
 
-import com.sdr.hikvision8700.HIKVISION8700;
+import com.sdr.hikvision8700.SDR_HIKVISION_8700_HTTPS;
 import com.sdr.hikvision8700.constant.HK8700Constant;
 import com.sdr.hikvision8700.data.HK8700ItemControl;
 import com.sdr.lib.rx.RxUtils;
@@ -27,7 +27,7 @@ public class HK8700Util {
         if (hkACache == null) {
             synchronized (HK8700Util.class) {
                 if (hkACache == null) {
-                    hkACache = ACache.get(HIKVISION8700.getInstance().getApplication().getExternalCacheDir());
+                    hkACache = ACache.get(SDR_HIKVISION_8700_HTTPS.getInstance().getApplication().getExternalCacheDir());
                 }
             }
         }

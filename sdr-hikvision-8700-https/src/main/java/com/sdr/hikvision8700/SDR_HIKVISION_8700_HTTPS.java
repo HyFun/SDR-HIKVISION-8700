@@ -3,7 +3,6 @@ package com.sdr.hikvision8700;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
 
 import com.hik.mcrsdk.MCRSDK;
@@ -15,7 +14,6 @@ import com.sdr.hikvision8700.data.HK8700User;
 import com.sdr.hikvision8700.ui.HK8700MainActivity;
 import com.sdr.lib.rx.RxUtils;
 import com.sdr.lib.util.AlertUtil;
-import com.sdr.lib.util.ToastTopUtil;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -28,23 +26,23 @@ import io.reactivex.functions.Function;
  * Description:
  */
 
-public class HIKVISION8700 {
-    private static HIKVISION8700 hikvision8700;
+public class SDR_HIKVISION_8700_HTTPS {
+    private static SDR_HIKVISION_8700_HTTPS SDRHikvision8700HTTPS;
 
     /**
-     * HIKVISION8700 的实例
+     * SDR_HIKVISION_8700_HTTPS 的实例
      *
      * @return
      */
-    public static final HIKVISION8700 getInstance() {
-        if (hikvision8700 == null) {
-            synchronized (HIKVISION8700.class) {
-                if (hikvision8700 == null) {
-                    hikvision8700 = new HIKVISION8700();
+    public static final SDR_HIKVISION_8700_HTTPS getInstance() {
+        if (SDRHikvision8700HTTPS == null) {
+            synchronized (SDR_HIKVISION_8700_HTTPS.class) {
+                if (SDRHikvision8700HTTPS == null) {
+                    SDRHikvision8700HTTPS = new SDR_HIKVISION_8700_HTTPS();
                 }
             }
         }
-        return hikvision8700;
+        return SDRHikvision8700HTTPS;
     }
 
 

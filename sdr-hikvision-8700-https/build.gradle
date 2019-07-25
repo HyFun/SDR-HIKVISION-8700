@@ -40,7 +40,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     //
     implementation 'com.github.sz-sdr:SDR-LIBRARY:2.1.0'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     implementation files('libs/ivms_8700_sdk_library.jar')
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }

@@ -71,7 +71,7 @@ public class SDR_HIKVISION_8700_HTTPS {
     public String getMacAddr() {
         WifiManager wm = (WifiManager) application.getSystemService(Context.WIFI_SERVICE);
         String mac = wm.getConnectionInfo().getMacAddress();
-        return mac == null ? "" : mac;
+        return mac == null ? "02:00:00:00:00:00" : mac;
     }
 
     /**
@@ -83,7 +83,6 @@ public class SDR_HIKVISION_8700_HTTPS {
      * @param passWord
      */
     public void start(final Context context, String url, String userName, String passWord) {
-        url = "http://" + url;
         HK8700User.getInstance().init(url, userName, passWord);
         if (loadJNI) {
             startToMain(context);

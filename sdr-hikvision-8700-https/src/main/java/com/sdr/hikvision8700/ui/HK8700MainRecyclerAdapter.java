@@ -90,19 +90,21 @@ public class HK8700MainRecyclerAdapter extends BaseQuickAdapter<HK8700ItemContro
         });
 
 
-        imageView.setOnClickListener(v -> {
-            // 显示选择的dialog
-            new HK8700PlayListDialog(mContext, treeNodeList, (treeNode, visablePositon, realDatasPositon, isLeaf) -> {
-                // 开始加载播放
-                SubResourceNodeBean cameraInfo = null;
-                if (treeNode.getObject() instanceof SubResourceNodeBean) {
-                    cameraInfo = (SubResourceNodeBean) treeNode.getObject();
-                }
-                if (cameraInfo == null) return;
-                surfaceView.setVisibility(View.VISIBLE);
-                imageView.setVisibility(View.GONE);
-                item.startLive(surfaceView, cameraInfo);
-            }).show();
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 显示选择的dialog
+                new HK8700PlayListDialog(mContext, HK8700MainRecyclerAdapter.this.view, new HK8700PlayListDialog.OnCameraListClickListener() {
+                    @Override
+                    public void onClick(SubResourceNodeBean cameraInfo) {
+                        // 开始加载播放
+                        surfaceView.setVisibility(View.VISIBLE);
+                        imageView.setVisibility(View.GONE);
+                        item.startLive(surfaceView, cameraInfo);
+                    }
+                })
+                        .show();
+            }
         });
 
     }
@@ -139,8 +141,7 @@ public class HK8700MainRecyclerAdapter extends BaseQuickAdapter<HK8700ItemContro
     }
 
 
-
-    public int getSelectedPosition(){
+    public int getSelectedPosition() {
         return lastClickPosition;
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
  * Email: 775183940@qq.com
  * Description:
  */
-
+@Deprecated
 public class HK8700ResourceHelper {
 
     private List<TreeNode> treeNodeList = new ArrayList<>();

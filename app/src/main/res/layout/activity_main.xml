@@ -8,7 +8,7 @@
         android:id="@+id/main_edt_ip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="192.168.0.73:8086"
+        android:text="113.214.30.122:443"
         android:hint="请输入IP地址"/>
 
     <EditText
@@ -22,7 +22,7 @@
         android:id="@+id/main_edt_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="hc@123456"
+        android:text="hik12345+"
         android:hint="请输入密码"/>
 
     <Button

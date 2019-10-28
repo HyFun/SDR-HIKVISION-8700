@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="?selectableItemBackground"
+    android:padding="10dp">
+    <ImageView
+        android:id="@+id/hk8700_camera_list_item_iv_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        tools:src="@drawable/hk_8700_ic_group"
+        android:tint="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/hk8700_camera_list_item_tv_title"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginLeft="10dp"
+        android:singleLine="true"
+        android:textColor="#333333"
+        tools:text="这是一条摄像头的名字名字"/>
+</LinearLayout>

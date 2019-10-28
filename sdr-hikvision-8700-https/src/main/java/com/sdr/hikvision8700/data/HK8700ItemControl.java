@@ -1,5 +1,7 @@
 package com.sdr.hikvision8700.data;
 
+import android.os.Handler;
+import android.os.Message;
 import android.view.SurfaceView;
 
 import com.hikvision.sdk.VMSNetSDK;
@@ -14,6 +16,7 @@ import java.io.File;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
 /**
@@ -35,6 +38,7 @@ public class HK8700ItemControl {
     public HK8700ItemControl(int index, HK8700PlayContract.View view) {
         this.position = index;
         this.view = view;
+        mHandler = new MyHandler();
     }
 
 
@@ -60,20 +64,34 @@ public class HK8700ItemControl {
         view.showLoadingDialog("正在加载");
         windowIndex = ++HK8700User.getInstance().windowIndex;
         cameraInfo = camera;
-        VMSNetSDK.getInstance().startLiveOpt(windowIndex, camera.getSysCode(), surfaceView, SDKConstant.LiveSDKConstant.MAIN_HIGH_STREAM, new OnVMSNetSDKBusiness() {
-            @Override
-            public void onFailure() {
-                view.hideLoadingDialog();
-                view.onPlayMsg(position, HK8700Constant.PlayLive.PLAY_LIVE_FAILED, "播放失败");
-            }
+        // 在子线程中
+        Observable.just(0)
+                .flatMap(new Function<Integer, ObservableSource<Integer>>() {
+                    @Override
+                    public ObservableSource<Integer> apply(Integer integer) throws Exception {
+                        VMSNetSDK.getInstance().startLiveOpt(windowIndex, camera.getSysCode(), surfaceView, SDKConstant.LiveSDKConstant.MAIN_HIGH_STREAM, new OnVMSNetSDKBusiness() {
+                            @Override
+                            public void onFailure() {
+                                mHandler.sendEmptyMessage(MyHandler.播放失败);
+                            }
 
-            @Override
-            public void onSuccess(Object o) {
-                view.hideLoadingDialog();
-                view.onPlayMsg(position, HK8700Constant.PlayLive.PLAY_LIVE_SUCCESS, "播放成功");
-                currentStatus = HK8700Constant.PlayStatus.LIVE_PLAY;
-            }
-        });
+                            @Override
+                            public void onSuccess(Object o) {
+                                mHandler.sendEmptyMessage(MyHandler.播放成功);
+                                currentStatus = HK8700Constant.PlayStatus.LIVE_PLAY;
+                            }
+                        });
+                        return RxUtils.createData(integer);
+                    }
+                })
+                .compose(RxUtils.io_main())
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+
+                    }
+                });
+
     }
 
     /**
@@ -134,7 +152,7 @@ public class HK8700ItemControl {
      * 截图拍照
      */
     public void capture(String path, String fileName) {
-        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT){
+        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT) {
             view.onPlayMsg(position, HK8700Constant.PlayLive.CAPTURE_FAILED, "视频没有正在播放，操作失败");
             return;
         }
@@ -155,7 +173,7 @@ public class HK8700ItemControl {
      * 开始录像
      */
     public void startRecord(String path, String fileName) {
-        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT){
+        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT) {
             view.onPlayMsg(position, HK8700Constant.PlayLive.RECORD_FAILED, "视频没有正在播放，操作失败");
             return;
         }
@@ -176,7 +194,7 @@ public class HK8700ItemControl {
      * 停止录像
      */
     public void stopRecord() {
-        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT){
+        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT) {
             view.onPlayMsg(position, HK8700Constant.PlayLive.RECORD_FAILED, "视频没有正在播放，操作失败");
             return;
         }
@@ -193,7 +211,7 @@ public class HK8700ItemControl {
      * 开启音频
      */
     public void startAudio() {
-        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT){
+        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT) {
             view.onPlayMsg(position, HK8700Constant.PlayLive.AUDIO_FAILED, "视频没有正在播放，无法开启音频");
             return;
         }
@@ -211,7 +229,7 @@ public class HK8700ItemControl {
      * 关闭音频
      */
     public void stopAudio() {
-        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT){
+        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT) {
             view.onPlayMsg(position, HK8700Constant.PlayLive.AUDIO_FAILED, "视频没有正在播放，操作失败");
             return;
         }
@@ -225,7 +243,7 @@ public class HK8700ItemControl {
 
 
     public void startControl(int cmd) {
-        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT){
+        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT) {
             view.onPlayMsg(position, HK8700Constant.PlayLive.SEND_CTRL_CMD_FAILED, "视频没有正在播放，无法控制");
             return;
         }
@@ -254,7 +272,7 @@ public class HK8700ItemControl {
 
 
     public void stopControl() {
-        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT){
+        if (currentStatus == HK8700Constant.PlayStatus.LIVE_INIT) {
             view.onPlayMsg(position, HK8700Constant.PlayLive.SEND_CTRL_CMD_FAILED, "视频没有正在播放，无法控制");
             return;
         }
@@ -278,6 +296,31 @@ public class HK8700ItemControl {
             }
         });
     }
+
+    // ——————————————————————————————————————————————————————————————————
+    private MyHandler mHandler;
+
+    private class MyHandler extends Handler {
+        public static final int 播放成功 = 0;
+        public static final int 播放失败 = 1;
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 播放失败:
+                    view.hideLoadingDialog();
+                    view.onPlayMsg(position, HK8700Constant.PlayLive.PLAY_LIVE_FAILED, "播放失败");
+                    break;
+                case 播放成功:
+                    view.hideLoadingDialog();
+                    view.onPlayMsg(position, HK8700Constant.PlayLive.PLAY_LIVE_SUCCESS, "播放成功");
+                    break;
+            }
+        }
+    }
+
+
     // ——————————————————————————————————————————————————————————————————
 
     /**

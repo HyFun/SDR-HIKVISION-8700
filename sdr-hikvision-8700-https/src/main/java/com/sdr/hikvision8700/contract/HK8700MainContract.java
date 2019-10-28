@@ -14,7 +14,9 @@ import java.util.List;
 
 public interface HK8700MainContract {
     interface View extends AbstractView {
-        void initSuccess(List<TreeNode> treeNodeList);
+        void loginSuccess();
+
+        void refreshCameraList(List<TreeNode> treeNodeList);
 
         void initFailed(String message);
     }

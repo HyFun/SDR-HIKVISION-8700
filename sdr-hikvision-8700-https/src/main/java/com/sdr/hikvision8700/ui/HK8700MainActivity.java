@@ -11,8 +11,10 @@ import android.widget.RadioGroup;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.sdr.hikvision8700.SDR_HIKVISION_8700_HTTPS;
+import com.hikvision.sdk.consts.HttpConstants;
+import com.orhanobut.logger.Logger;
 import com.sdr.hikvision8700.R;
+import com.sdr.hikvision8700.SDR_HIKVISION_8700_HTTPS;
 import com.sdr.hikvision8700.base.HK8700BaseActivity;
 import com.sdr.hikvision8700.constant.HK8700Constant;
 import com.sdr.hikvision8700.contract.HK8700MainContract;
@@ -21,6 +23,7 @@ import com.sdr.hikvision8700.data.HK8700ItemControl;
 import com.sdr.hikvision8700.data.HK8700User;
 import com.sdr.hikvision8700.presenter.HK8700MainPresenter;
 import com.sdr.hikvision8700.support.HK8700Util;
+import com.sdr.lib.http.HttpClient;
 import com.sdr.lib.ui.tree.TreeNode;
 
 import java.util.ArrayList;
@@ -63,7 +66,7 @@ public class HK8700MainActivity extends HK8700BaseActivity<HK8700MainPresenter> 
         // 先登录
         showLoadingView();
         presenter.init(
-                HK8700User.getInstance().getUrl(),
+                HttpConstants.HTTPS + HK8700User.getInstance().getUrl(),
                 HK8700User.getInstance().getUserName(),
                 HK8700User.getInstance().getPassWord(),
                 SDR_HIKVISION_8700_HTTPS.getInstance().getMacAddr()
@@ -216,8 +219,14 @@ public class HK8700MainActivity extends HK8700BaseActivity<HK8700MainPresenter> 
     }
 
     // ——————————————————VIEW——————————————————————
+
     @Override
-    public void initSuccess(List<TreeNode> treeNodeList) {
+    public void loginSuccess() {
+        showContentView();
+    }
+
+    @Override
+    public void refreshCameraList(List<TreeNode> treeNodeList) {
         this.treeNodeList.clear();
         this.treeNodeList.addAll(treeNodeList);
     }

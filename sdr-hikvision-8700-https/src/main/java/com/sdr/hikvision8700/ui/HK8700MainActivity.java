@@ -12,7 +12,6 @@ import android.widget.RadioGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.hikvision.sdk.consts.HttpConstants;
-import com.orhanobut.logger.Logger;
 import com.sdr.hikvision8700.R;
 import com.sdr.hikvision8700.SDR_HIKVISION_8700_HTTPS;
 import com.sdr.hikvision8700.base.HK8700BaseActivity;
@@ -23,12 +22,13 @@ import com.sdr.hikvision8700.data.HK8700ItemControl;
 import com.sdr.hikvision8700.data.HK8700User;
 import com.sdr.hikvision8700.presenter.HK8700MainPresenter;
 import com.sdr.hikvision8700.support.HK8700Util;
-import com.sdr.lib.http.HttpClient;
 import com.sdr.lib.ui.tree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 public class HK8700MainActivity extends HK8700BaseActivity<HK8700MainPresenter> implements HK8700MainContract.View {
 
@@ -124,6 +124,31 @@ public class HK8700MainActivity extends HK8700BaseActivity<HK8700MainPresenter> 
         });
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mainRecyclerAdapter == null) {
+            return;
+        }
+        // 先查询出正在播放的
+        List<HK8700ItemControl> datas = mainRecyclerAdapter.getData();
+        final List<HK8700History.CameraInfo> cameraInfoList = new ArrayList<>();
+        for (HK8700ItemControl item : datas) {
+            if (item.getCurrentStatus() == HK8700Constant.PlayStatus.LIVE_PLAY) {
+                cameraInfoList.add(new HK8700History.CameraInfo(item.getPosition(), item.getCameraInfo()));
+            }
+        }
+        // 先关闭所有的，然后再开启
+        HK8700Util.closeAllPlayingVideo(datas)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        changeRecycler(currentViewNum, cameraInfoList);
+                    }
+                });
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -216,6 +241,7 @@ public class HK8700MainActivity extends HK8700BaseActivity<HK8700MainPresenter> 
                         });
             }
         }
+        currentViewNum = num;
     }
 
     // ——————————————————VIEW——————————————————————

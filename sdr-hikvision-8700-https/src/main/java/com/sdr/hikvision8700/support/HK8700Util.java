@@ -1,5 +1,6 @@
 package com.sdr.hikvision8700.support;
 
+import com.orhanobut.logger.Logger;
 import com.sdr.hikvision8700.SDR_HIKVISION_8700_HTTPS;
 import com.sdr.hikvision8700.constant.HK8700Constant;
 import com.sdr.hikvision8700.data.HK8700ItemControl;
@@ -54,8 +55,13 @@ public class HK8700Util {
                 .flatMap(new Function<Integer, ObservableSource<Boolean>>() {
                     @Override
                     public ObservableSource<Boolean> apply(Integer integer) throws Exception {
-                        for (HK8700ItemControl item : hkItemControlList) {
-                            item.stopLiveSyn();
+                        try {
+                            for (HK8700ItemControl item : hkItemControlList) {
+                                item.stopLiveSyn();
+                            }
+                        } catch (Exception e) {
+                            Logger.e(e, e.getMessage());
+                            return Observable.error(e);
                         }
                         return RxUtils.createData(true);
                     }

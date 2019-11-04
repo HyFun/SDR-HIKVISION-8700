@@ -120,9 +120,9 @@ public class HK8700ItemControl {
                 .subscribe(result -> {
                     view.hideLoadingDialog();
                     if (result) {
-                        view.onPlayMsg(position, HK8700Constant.PlayLive.PLAY_LIVE_STOP_SUCCESS, "停止成功");
+                        mHandler.sendEmptyMessage(MyHandler.关闭成功);
                         currentStatus = HK8700Constant.PlayStatus.LIVE_INIT;
-                        HK8700User.getInstance().windowIndex--;
+//                        HK8700User.getInstance().windowIndex--;
                     }
                 });
     }
@@ -142,9 +142,9 @@ public class HK8700ItemControl {
         }
 
         if (stopLiveResult) {
-            view.onPlayMsg(position, HK8700Constant.PlayLive.PLAY_LIVE_STOP_SUCCESS, "停止成功");
+            mHandler.sendEmptyMessage(MyHandler.关闭成功);
             currentStatus = HK8700Constant.PlayStatus.LIVE_INIT;
-            HK8700User.getInstance().windowIndex--;
+//            HK8700User.getInstance().windowIndex--;
         }
     }
 
@@ -303,6 +303,7 @@ public class HK8700ItemControl {
     private class MyHandler extends Handler {
         public static final int 播放成功 = 0;
         public static final int 播放失败 = 1;
+        public static final int 关闭成功 = 3;
 
         @Override
         public void handleMessage(Message msg) {
@@ -315,6 +316,9 @@ public class HK8700ItemControl {
                 case 播放成功:
                     view.hideLoadingDialog();
                     view.onPlayMsg(position, HK8700Constant.PlayLive.PLAY_LIVE_SUCCESS, "播放成功");
+                    break;
+                case 关闭成功:
+                    view.onPlayMsg(position, HK8700Constant.PlayLive.PLAY_LIVE_STOP_SUCCESS, "停止成功");
                     break;
             }
         }

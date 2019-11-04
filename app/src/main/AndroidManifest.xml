@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:name=".MyApplication"
         android:theme="@style/AppTheme">
+
+        <meta-data android:name="ip" android:value="${ip}"/>
+        <meta-data android:name="port" android:value="${port}"/>
+        <meta-data android:name="name" android:value="${name}"/>
+        <meta-data android:name="password" android:value="${password}"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

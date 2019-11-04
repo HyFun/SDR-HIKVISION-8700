@@ -8,21 +8,21 @@
         android:id="@+id/main_edt_ip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="113.214.30.122:443"
+        android:text=""
         android:hint="请输入IP地址"/>
 
     <EditText
         android:id="@+id/main_edt_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="admin"
+        android:text=""
         android:hint="请输入用户名"/>
 
     <EditText
         android:id="@+id/main_edt_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="hik12345+"
+        android:text=""
         android:hint="请输入密码"/>
 
     <Button

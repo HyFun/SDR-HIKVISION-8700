@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -13,8 +16,15 @@ android {
         ndk {
             //APP的build.gradle设置支持的SO库架构
             //abiFilters 'armeabi', 'armeabi-v7a', 'x86'
-            abiFilters 'armeabi','armeabi-v7a'
+            abiFilters 'armeabi', 'armeabi-v7a'
         }
+
+        manifestPlaceholders = [ip: properties.getProperty('ip'),
+                                port: properties.getProperty('port'),
+                                name: properties.getProperty('name'),
+                                password: properties.getProperty('password')
+        ]
+
     }
     buildTypes {
         release {
@@ -28,7 +38,6 @@ android {
     }
 
 }
-
 
 
 dependencies {

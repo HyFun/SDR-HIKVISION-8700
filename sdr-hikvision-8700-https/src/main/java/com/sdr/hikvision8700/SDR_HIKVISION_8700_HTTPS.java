@@ -12,7 +12,7 @@ import com.hikvision.sdk.VMSNetSDK;
 import com.orhanobut.logger.Logger;
 import com.sdr.hikvision8700.data.HK8700User;
 import com.sdr.hikvision8700.ui.HK8700MainActivity;
-import com.sdr.lib.rx.RxUtils;
+import com.sdr.lib.rx.RxUtil;
 import com.sdr.lib.util.AlertUtil;
 
 import io.reactivex.Observable;
@@ -101,13 +101,13 @@ public class SDR_HIKVISION_8700_HTTPS {
                                 TalkClientSDK.initLib();
                                 // SDK初始化
                                 VMSNetSDK.init(application);
-                                return RxUtils.createData(true);
+                                return RxUtil.createData(true);
                             } catch (Exception e) {
                                 return Observable.error(e);
                             }
                         }
                     })
-                    .compose(RxUtils.io_main())
+                    .compose(RxUtil.io_main())
                     .subscribe(new Consumer<Object>() {
                         @Override
                         public void accept(Object o) throws Exception {
@@ -118,7 +118,7 @@ public class SDR_HIKVISION_8700_HTTPS {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
                             Logger.e(throwable, throwable.getMessage());
-                            AlertUtil.showPositiveToastTop("海康8700视频库文件加载失败");
+                            AlertUtil.showNegativeToastTop("海康8700视频库文件加载失败", "");
                         }
                     });
 

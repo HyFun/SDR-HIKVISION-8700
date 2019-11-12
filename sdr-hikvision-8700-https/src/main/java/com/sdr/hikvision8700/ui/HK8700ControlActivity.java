@@ -20,7 +20,7 @@ import com.sdr.hikvision8700.base.HK8700BaseActivity;
 import com.sdr.hikvision8700.constant.HK8700Constant;
 import com.sdr.hikvision8700.contract.HK8700PlayContract;
 import com.sdr.hikvision8700.data.HK8700ItemControl;
-import com.sdr.lib.rx.RxUtils;
+import com.sdr.lib.rx.RxUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -299,11 +299,11 @@ public class HK8700ControlActivity extends HK8700BaseActivity implements HK8700P
                         };
                     }
                 })
-                .compose(RxUtils.io_main())
+                .compose(RxUtil.io_main())
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
-                        itemControl.startLive(mSurfaceView,camera);
+                        itemControl.startLive(mSurfaceView, camera);
                     }
                 });
     }
@@ -328,7 +328,7 @@ public class HK8700ControlActivity extends HK8700BaseActivity implements HK8700P
                                             observer.onComplete();
                                         };
                                     }
-                                }).compose(RxUtils.io_main())
+                                }).compose(RxUtil.io_main())
                                 .subscribe(ret -> {
                                     finish();
                                 });
@@ -352,39 +352,38 @@ public class HK8700ControlActivity extends HK8700BaseActivity implements HK8700P
             // 停止成功
         } else if (code == HK8700Constant.PlayLive.PLAY_LIVE_FAILED || code == HK8700Constant.PlayLive.PLAY_LIVE_RTSP_FAIL) {
             // 播放失败
-            showErrorMsg(msg);
+            showErrorMsg("播放失败", msg);
         } else if (code == HK8700Constant.PlayLive.SEND_CTRL_CMD_SUCCESS) {
             // 指令执行成功
-            showSuccessToast(msg);
+            showSuccessMsg(msg, "");
         } else if (code == HK8700Constant.PlayLive.SEND_CTRL_CMD_FAILED) {
             // 指令执行失败
-            showErrorToast(msg);
+            showErrorMsg(msg, "");
         } else if (code == HK8700Constant.PlayLive.CAPTURE_SUCCESS) {
             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(msg))));
-            showSuccessToast(msg);
+            showSuccessMsg(msg, "");
         } else if (code == HK8700Constant.PlayLive.CAPTURE_FAILED) {
-            showErrorToast(msg);
+            showErrorMsg(msg, "");
         } else if (code == HK8700Constant.PlayLive.RECORD_START) {
-            showNormalToast("开始录像");
+            showNormalMsg("开始录像", "");
             rbControlRecord.setChecked(true);
         } else if (code == HK8700Constant.PlayLive.RECORD_SUCCESS) {
-            showSuccessToast(msg);
+            showSuccessMsg(msg, "");
             rbControlRecord.setChecked(false);
         } else if (code == HK8700Constant.PlayLive.RECORD_FAILED) {
-            showErrorToast(msg);
+            showErrorMsg(msg, "");
             rbControlRecord.setChecked(false);
         } else if (code == HK8700Constant.PlayLive.AUDIO_FAILED) {
-            showErrorToast(msg);
+            showErrorMsg(msg, "");
             rbControlAudio.setChecked(false);
         } else if (code == HK8700Constant.PlayLive.AUDIO_SUCCESS) {
-            showSuccessToast(msg);
+            showSuccessMsg(msg, "");
             rbControlAudio.setChecked(true);
         } else if (code == HK8700Constant.PlayLive.AUDIO_CLOSE_SUCCESS) {
-            showSuccessToast(msg);
+            showSuccessMsg(msg, "");
             rbControlAudio.setChecked(false);
         }
     }
-
 
 
     // —————————————————————————私有—————————————————————————————
@@ -396,7 +395,7 @@ public class HK8700ControlActivity extends HK8700BaseActivity implements HK8700P
      */
     private void sendCtrlCmd(int cmd) {
         if (itemControl.getCurrentStatus() == HK8700Constant.PlayStatus.LIVE_INIT) {
-            showErrorToast("视频没有正在播放，无法控制");
+            showErrorMsg("视频没有正在播放，无法控制", "");
             return;
         }
         itemControl.startControl(cmd);

@@ -10,7 +10,7 @@ import com.hikvision.sdk.net.bean.SubResourceNodeBean;
 import com.hikvision.sdk.net.business.OnVMSNetSDKBusiness;
 import com.sdr.hikvision8700.constant.HK8700Constant;
 import com.sdr.hikvision8700.contract.HK8700PlayContract;
-import com.sdr.lib.rx.RxUtils;
+import com.sdr.lib.rx.RxUtil;
 
 import java.io.File;
 
@@ -81,10 +81,10 @@ public class HK8700ItemControl {
                                 currentStatus = HK8700Constant.PlayStatus.LIVE_PLAY;
                             }
                         });
-                        return RxUtils.createData(integer);
+                        return RxUtil.createData(integer);
                     }
                 })
-                .compose(RxUtils.io_main())
+                .compose(RxUtil.io_main())
                 .subscribe(new Consumer<Integer>() {
                     @Override
                     public void accept(Integer integer) throws Exception {
@@ -113,10 +113,10 @@ public class HK8700ItemControl {
                             stopAudio();
                         }
 
-                        return RxUtils.createData(stopLiveResult);
+                        return RxUtil.createData(stopLiveResult);
                     }
                 })
-                .compose(RxUtils.io_main())
+                .compose(RxUtil.io_main())
                 .subscribe(result -> {
                     view.hideLoadingDialog();
                     if (result) {

@@ -4,7 +4,7 @@ import com.orhanobut.logger.Logger;
 import com.sdr.hikvision8700.SDR_HIKVISION_8700_HTTPS;
 import com.sdr.hikvision8700.constant.HK8700Constant;
 import com.sdr.hikvision8700.data.HK8700ItemControl;
-import com.sdr.lib.rx.RxUtils;
+import com.sdr.lib.rx.RxUtil;
 import com.sdr.lib.support.ACache;
 
 import java.util.ArrayList;
@@ -63,9 +63,9 @@ public class HK8700Util {
                             Logger.e(e, e.getMessage());
                             return Observable.error(e);
                         }
-                        return RxUtils.createData(true);
+                        return RxUtil.createData(true);
                     }
                 })
-                .compose(RxUtils.io_main());
+                .compose(RxUtil.io_main());
     }
 }

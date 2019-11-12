@@ -54,7 +54,7 @@ public class HK8700PlayListDialog {
             @Override
             public void onFailure() {
                 view.hideLoadingDialog();
-                AlertUtil.showNegativeToast("获取控制中心失败");
+                AlertUtil.showNegativeToastTop("获取控制中心失败", "");
             }
 
             @Override
@@ -91,7 +91,7 @@ public class HK8700PlayListDialog {
                         public void onFailure() {
                             super.onFailure();
                             view.hideLoadingDialog();
-                            AlertUtil.showNegativeToast("获取失败");
+                            AlertUtil.showNegativeToastTop("获取失败", "");
                         }
 
                         @Override
@@ -123,7 +123,7 @@ public class HK8700PlayListDialog {
                             public void onFailure() {
                                 super.onFailure();
                                 view.hideLoadingDialog();
-                                AlertUtil.showNegativeToast("获取失败");
+                                AlertUtil.showNegativeToastTop("获取失败","");
                             }
 
                             @Override

@@ -96,7 +96,7 @@ public class HK8700MainActivity extends HK8700BaseActivity<HK8700MainPresenter> 
                 // 获取历史记录
                 final HK8700History hkHistory = (HK8700History) HK8700Util.getHkACache().getAsObject(HK8700Constant.HIK_VISION_8700_HISTORY);
                 if (hkHistory == null || hkHistory.getCameraInfoList().isEmpty()) {
-                    showErrorMsg("没有浏览历史记录");
+                    showErrorMsg("没有浏览历史记录", "");
                     return;
                 }
                 // 有历史记录  开启预览
@@ -118,7 +118,7 @@ public class HK8700MainActivity extends HK8700BaseActivity<HK8700MainPresenter> 
                     // 正在播放的时候才方法
                     HK8700ControlActivity.startHK8700ControlActivity(getActivity(), mainRecyclerAdapter.getData().get(mainRecyclerAdapter.getSelectedPosition()).getCameraInfo());
                 } else {
-                    showErrorMsg("请选择一个正在播放的窗口");
+                    showErrorMsg("请选择一个正在播放的窗口", "");
                 }
             }
         });
@@ -259,7 +259,7 @@ public class HK8700MainActivity extends HK8700BaseActivity<HK8700MainPresenter> 
 
     @Override
     public void initFailed(String message) {
-        showErrorMsg(message);
+        showErrorMsg(message,"");
         finish();
     }
 }
